@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#e8eee3">
+<title>my little world</title>
+<style>
+:root{--bg:#f5f5ed;--paper:#fffdf7;--sage:#dce6d7;--sage2:#b9cbb4;--deep:#536b55;--ink:#38463a;--muted:#899387;--line:#e7e9df;--shadow:0 10px 30px #536b5510}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:ui-rounded,"Avenir Next",Avenir,system-ui,sans-serif}
+button,input,textarea{font:inherit}button{cursor:pointer}
+.shell{max-width:520px;margin:auto;min-height:100dvh;padding:env(safe-area-inset-top) 18px calc(88px + env(safe-area-inset-bottom));}
+header{display:flex;justify-content:space-between;align-items:center;padding:22px 2px 18px}
+.brand small{display:block;color:var(--muted);font-size:11px;letter-spacing:.16em;text-transform:uppercase}
+.brand h1{font-family:Georgia,serif;font-size:29px;font-weight:500;margin:5px 0 0;letter-spacing:-.7px}
+.avatar{width:42px;height:42px;border-radius:50%;background:var(--sage);display:grid;place-items:center;color:var(--deep);font-size:19px}
+.hero{background:linear-gradient(135deg,#e6eee1,#f1f1e7);border:1px solid #e0e8dc;border-radius:24px;padding:22px;box-shadow:var(--shadow)}
+.hero .date{font-size:12px;color:var(--deep);letter-spacing:.08em;text-transform:uppercase}
+.hero h2{font:500 25px/1.2 Georgia,serif;margin:10px 0 8px}
+.hero p{font-size:13px;line-height:1.6;color:#667565;margin:0}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin:25px 2px 12px}
+.section-head h3{font:500 19px Georgia,serif;margin:0}
+.section-head span{font-size:11px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.tile{background:var(--paper);border:1px solid var(--line);border-radius:19px;padding:16px 14px;min-height:112px;text-align:left;color:var(--ink);box-shadow:var(--shadow)}
+.tile .ico{width:34px;height:34px;border-radius:12px;background:var(--sage);display:grid;place-items:center;font-size:17px;margin-bottom:12px}
+.tile b{display:block;font:500 16px Georgia,serif}.tile small{display:block;color:var(--muted);font-size:11px;margin-top:5px}
+.panel{display:none;background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:18px;margin-top:18px;box-shadow:var(--shadow)}
+.panel.active{display:block}.panel h2{font:500 23px Georgia,serif;margin:0 0 6px}.hint{color:var(--muted);font-size:12px;line-height:1.5;margin:0 0 15px}
+label{display:block;font-size:12px;color:var(--deep);margin:13px 0 6px}
+input,textarea{width:100%;border:1px solid var(--line);border-radius:13px;padding:12px;background:#fffef9;color:var(--ink);outline:none}
+textarea{min-height:145px;resize:vertical;line-height:1.55}
+.primary{border:0;border-radius:13px;background:var(--deep);color:white;padding:12px 16px;margin-top:12px;width:100%}
+.secondary{border:1px solid var(--line);border-radius:12px;background:#f7f8f1;color:var(--deep);padding:9px 12px}
+.entry{border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:10px;background:#fffefb}
+.entry b{font:500 15px Georgia,serif}.entry p{font-size:12px;color:#6e786d;white-space:pre-wrap;line-height:1.5;margin:7px 0 0}
+.list{display:grid;gap:9px}.rowitem{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:13px;padding:11px;background:#fffefb}.rowitem input{width:auto}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fbfbf5ed;backdrop-filter:blur(15px);border-top:1px solid var(--line);padding:10px 18px calc(10px + env(safe-area-inset-bottom));display:flex;justify-content:center;gap:12px;z-index:4}
+nav button{border:0;background:transparent;color:var(--muted);font-size:11px;padding:5px 8px;display:grid;gap:4px;justify-items:center}
+nav button strong{font-size:18px;font-weight:400}nav button.sel{color:var(--deep)}
+#lock{position:fixed;inset:0;background:var(--bg);z-index:10;display:grid;place-items:center;padding:24px}
+.lockcard{width:min(100%,360px);text-align:center;background:var(--paper);padding:28px 22px;border:1px solid var(--line);border-radius:25px;box-shadow:var(--shadow)}
+.lockicon{width:64px;height:64px;margin:0 auto 15px;border-radius:22px;background:var(--sage);display:grid;place-items:center;font-size:27px}
+.lockcard h1{font:500 27px Georgia,serif;margin:0 0 8px}.lockcard p{font-size:12px;color:var(--muted);line-height:1.5}
+.lockcard input{text-align:center;letter-spacing:.35em;font-size:20px}
+#setupNote{font-size:11px;color:#9a7856;line-height:1.5;margin-top:12px}
+.toast{font-size:12px;color:var(--deep);min-height:18px;margin-top:8px}
+@media(min-width:520px){nav{left:calc(50% - 260px);right:calc(50% - 260px);border-radius:18px 18px 0 0}}
+</style>
+</head>
+<body>
+<div id="lock">
+ <div class="lockcard">
+  <div class="lockicon">🌿</div>
+  <h1>my little world</h1>
+  <p id="lockText">A quiet place for your thoughts, memories and little dreams.</p>
+  <input id="pin" type="password" inputmode="numeric" maxlength="4" placeholder="••••" autocomplete="off">
+  <button class="primary" id="unlockBtn">Continue</button>
+  <div class="toast" id="lockMsg"></div>
+  <div id="setupNote">First time? Create a private passcode of exactly 4 digits. Keep it somewhere safe — there is no password recovery in this starter version.</div>
+ </div>
+</div>
+<div class="shell">
+<header><div class="brand"><small>your personal journal</small><h1>my little world</h1></div><div class="avatar">✿</div></header>
+<main id="home">
+ <section class="hero"><div class="date" id="today"></div><h2>A little space to be yourself.</h2><p>Collect the moments, thoughts and dreams that make your world yours.</p></section>
+ <div class="section-head"><h3>Your little corners</h3><span>make yourself at home</span></div>
+ <div class="grid">
+  <button class="tile" data-open="diary"><span class="ico">📖</span><b>Daily diary</b><small>Write about today</small></button>
+  <button class="tile" data-open="photos"><span class="ico">🖼️</span><b>Photo memories</b><small>Keep little moments</small></button>
+  <button class="tile" data-open="faves"><span class="ico">♫</span><b>My favourites</b><small>Songs, books & more</small></button>
+  <button class="tile" data-open="secret"><span class="ico">☁️</span><b>Secret thoughts</b><small>A space to reflect</small></button>
+  <button class="tile" data-open="letters"><span class="ico">✉️</span><b>Letters to future me</b><small>Words for another day</small></button>
+  <button class="tile" data-open="bucket"><span class="ico">✧</span><b>Bucket list</b><small>Dream a little bigger</small></button>
+  <button class="tile" data-open="recaps"><span class="ico">☾</span><b>Monthly recaps</b><small>Remember this chapter</small></button>
+  <button class="tile" data-open="settings"><span class="ico">⚙</span><b>My space</b><small>Privacy & settings</small></button>
+ </div>
+</main>
+<section class="panel" id="diary"><h2>Daily diary</h2><p class="hint">A page for whatever today held.</p><label>Date</label><input id="diaryDate" type="date"><label>Title</label><input id="diaryTitle" placeholder="A little title for today"><label>Your entry</label><textarea id="diaryBody" placeholder="Dear diary..."></textarea><button class="primary" onclick="saveEntry('diary')">Save entry</button><div id="diaryList"></div></section>
+<section class="panel" id="secret"><h2>Secret thoughts</h2><p class="hint">A private reflection space. Your saved journal data is encrypted with your passcode on this device.</p><label>What's on your mind?</label><textarea id="secretBody" placeholder="Write freely..."></textarea><button class="primary" onclick="saveEntry('secret')">Save thought</button><div id="secretList"></div></section>
+<section class="panel" id="photos"><h2>Photo memories</h2><p class="hint">Add a caption and choose a photo. Photos are kept in this browser on this device.</p><label>Caption</label><input id="photoCaption" placeholder="The little details..."><label>Choose photo</label><input id="photoFile" type="file" accept="image/*"><button class="primary" onclick="savePhoto()">Save memory</button><div id="photoList"></div></section>
+<section class="panel" id="faves"><h2>My favourites</h2><p class="hint">Keep a list of the things you love right now.</p><label>Category</label><input id="favCategory" placeholder="Song, artist, book, film..."><label>Favourite</label><input id="favName" placeholder="What do you love?"><label>Why it's a favourite (optional)</label><input id="favWhy" placeholder="It makes me feel..."><button class="primary" onclick="saveFavourite()">Add to favourites</button><div id="favesList"></div></section>
+<section class="panel" id="letters"><h2>Letters to future me</h2><p class="hint">Leave a note for the person you're becoming.</p><label>Open this letter on</label><input id="letterDate" type="date"><label>Letter title</label><input id="letterTitle" placeholder="Dear future me..."><label>Your letter</label><textarea id="letterBody" placeholder="I hope that by the time you read this..."></textarea><button class="primary" onclick="saveEntry('letters')">Save letter</button><div id="lettersList"></div></section>
+<section class="panel" id="bucket"><h2>My bucket list</h2><p class="hint">Little wishes, big dreams — all welcome.</p><label>Add something you want to do</label><input id="bucketText" placeholder="One day, I want to..."><button class="primary" onclick="addBucket()">Add to my list</button><div id="bucketList" class="list"></div></section>
+<section class="panel" id="recaps"><h2>Monthly recaps</h2><p class="hint">Look back gently. Every month is a chapter.</p><label>Month</label><input id="recapMonth" type="month"><label>Highlights</label><textarea id="recapBody" placeholder="What made this month memorable?"></textarea><button class="primary" onclick="saveEntry('recaps')">Save recap</button><div id="recapsList"></div></section>
+<section class="panel" id="settings"><h2>My space</h2><p class="hint">Your journal is designed to keep its saved content on this device only. There is no cloud sync in this starter.</p><div class="entry"><b>Privacy note</b><p>Entries are encrypted in this browser using a key derived from your passcode. Face ID is not enabled in this starter build. A passcode is not a substitute for keeping your iPhone locked and updated.</p></div><button class="secondary" onclick="lockNow()">Lock my diary</button><button class="secondary" onclick="exportBackup()">Export encrypted backup</button><button class="secondary" onclick="changePin()">Change passcode</button><button class="secondary" onclick="deleteAll()" style="color:#9a5148">Delete all diary data</button><div class="toast" id="settingsMsg"></div></section>
+</div>
+<nav>
+ <button class="sel" data-nav="home"><strong>⌂</strong>Home</button>
+ <button data-nav="diary"><strong>✎</strong>Write</button>
+ <button data-nav="photos"><strong>▧</strong>Photos</button>
+ <button data-nav="bucket"><strong>✧</strong>Dreams</button>
+ <button data-nav="settings"><strong>⚙</strong>Settings</button>
+</nav>
+<script>
+const $=id=>document.getElementById(id);
+const DB='mlw_encrypted_v1', SALT='mlw_salt_v1', CHECK='mlw_check_v1';
+let key=null, data={diary:[],secret:[],photos:[],faves:[],letters:[],bucket:[],recaps:[]};
+const enc=new TextEncoder(), dec=new TextDecoder();
+const b64=b=>btoa(String.fromCharCode(...new Uint8Array(b)));
+const unb64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function derive(pin,salt){const base=await crypto.subtle.importKey('raw',enc.encode(pin),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:250000,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);}
+async function encrypt(obj){const iv=crypto.getRandomValues(new Uint8Array(12));const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},key,enc.encode(JSON.stringify(obj)));return JSON.stringify({iv:b64(iv),ct:b64(ct)});}
+async function decrypt(raw){const o=JSON.parse(raw);const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(o.iv)},key,unb64(o.ct));return JSON.parse(dec.decode(pt));}
+async function persist(){localStorage.setItem(DB,await encrypt(data));}
+async function init(){
+ $('today').textContent=new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
+ $('diaryDate').value=new Date().toISOString().slice(0,10);$('letterDate').value=new Date(Date.now()+365*86400000).toISOString().slice(0,10);$('recapMonth').value=new Date().toISOString().slice(0,7);
+ if(localStorage.getItem(SALT)){ $('lockText').textContent='Welcome back. Your little world is waiting.';$('setupNote').textContent='Enter your passcode to unlock your journal.';}
+}
+$('unlockBtn').onclick=async()=>{
+ const pin=$('pin').value;if(!/^\d{4}$/.test(pin)){$('lockMsg').textContent='Please use a passcode with exactly 4 digits.';return;}
+ try{
+  let salt;
+  if(!localStorage.getItem(SALT)){salt=crypto.getRandomValues(new Uint8Array(16));localStorage.setItem(SALT,b64(salt));key=await derive(pin,salt);data={diary:[],secret:[],photos:[],faves:[],letters:[],bucket:[],recaps:[]};localStorage.setItem(CHECK,await encrypt({ok:'my-little-world'}));await persist();}
+  else{salt=unb64(localStorage.getItem(SALT));key=await derive(pin,salt);const check=await decrypt(localStorage.getItem(CHECK));if(check.ok!=='my-little-world')throw Error();data=localStorage.getItem(DB)?await decrypt(localStorage.getItem(DB)):data;}
+  $('lock').style.display='none';$('pin').value='';renderAll();
+ }catch(e){key=null;$('lockMsg').textContent='That passcode did not unlock your diary. Try again.';}
+};
+function show(id){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));$('home').style.display=id==='home'?'block':'none';if(id!=='home')$(id).classList.add('active');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('sel',b.dataset.nav===id));}
+document.querySelectorAll('[data-open],[data-nav]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.open||b.dataset.nav)));
+function safe(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+async function saveEntry(type){
+ let item={id:Date.now(),date:type==='letters'?$('letterDate').value:type==='recaps'?$('recapMonth').value:$('diaryDate').value,title:type==='diary'?$('diaryTitle').value:type==='letters'?$('letterTitle').value:type==='recaps'?'Monthly reflection':'Secret thought',body:type==='secret'?$('secretBody').value:type==='letters'?$('letterBody').value:type==='recaps'?$('recapBody').value:$('diaryBody').value};
+ if(!item.body.trim()){alert('Write a little something first.');return;}data[type].unshift(item);await persist();
+ if(type==='diary'){$('diaryTitle').value='';$('diaryBody').value='';}if(type==='secret')$('secretBody').value='';if(type==='letters'){$('letterTitle').value='';$('letterBody').value='';}if(type==='recaps')$('recapBody').value='';
+ renderList(type);alert('Saved in your little world 🤍');
+}
+function renderList(type){const el=$(type+'List');if(!el)return;el.innerHTML=(data[type]||[]).map(x=>`<div class="entry"><b>${safe(x.title||x.date||'Memory')}</b><p>${safe(x.date||'')}\n${safe(x.body||'')}</p></div>`).join('')||'<p class="hint">Nothing here yet. Your first page is waiting.</p>';}
+async function savePhoto(){const f=$('photoFile').files[0];if(!f)return alert('Choose a photo first.');if(f.size>1200000)return alert('Please choose a photo smaller than 1.2 MB for this starter version.');const reader=new FileReader();reader.onload=async()=>{data.photos.unshift({id:Date.now(),caption:$('photoCaption').value,src:reader.result});try{await persist();renderPhotos();$('photoCaption').value='';$('photoFile').value='';}catch(e){alert('This photo may be too large to save. Try a smaller image.');}};reader.readAsDataURL(f);}
+function renderPhotos(){$('photoList').innerHTML=data.photos.map(x=>`<div class="entry"><img src="${x.src}" alt="" style="width:100%;border-radius:10px;max-height:230px;object-fit:cover"><p>${safe(x.caption)}</p></div>`).join('')||'<p class="hint">Your photo memories will appear here.</p>';}
+async function saveFavourite(){if(!$('favName').value.trim())return;data.faves.unshift({category:$('favCategory').value,name:$('favName').value,why:$('favWhy').value});await persist();$('favName').value='';$('favWhy').value='';renderFaves();}
+function renderFaves(){$('favesList').innerHTML=data.faves.map(x=>`<div class="entry"><b>${safe(x.name)}</b><p>${safe(x.category)} · ${safe(x.why)}</p></div>`).join('')||'<p class="hint">Your favourites will live here.</p>';}
+async function addBucket(){let v=$('bucketText').value.trim();if(!v)return;data.bucket.unshift({text:v,done:false});await persist();$('bucketText').value='';renderBucket();}
+function renderBucket(){$('bucketList').innerHTML=data.bucket.map((x,i)=>`<label class="rowitem"><input type="checkbox" ${x.done?'checked':''} onchange="toggleBucket(${i},this.checked)"><span style="${x.done?'text-decoration:line-through;color:#9aa395':''}">${safe(x.text)}</span></label>`).join('')||'<p class="hint">Your dreams will appear here.</p>';}
+async function toggleBucket(i,v){data.bucket[i].done=v;await persist();renderBucket();}
+function renderAll(){['diary','secret','letters','recaps'].forEach(renderList);renderPhotos();renderFaves();renderBucket();}
+function lockNow(){key=null;data={diary:[],secret:[],photos:[],faves:[],letters:[],bucket:[],recaps:[]};$('lock').style.display='grid';$('lockText').textContent='Your little world is locked. See you soon.';$('setupNote').textContent='Enter your passcode to unlock your journal.';show('home');}
+async function changePin(){const old=prompt('Enter your current passcode');if(!old)return;try{const salt=unb64(localStorage.getItem(SALT));const oldKey=await derive(old,salt);const raw=localStorage.getItem(CHECK);const o=JSON.parse(raw);const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(o.iv)},oldKey,unb64(o.ct));if(JSON.parse(dec.decode(pt)).ok!=='my-little-world')throw Error();const next=prompt('Choose a new 4-digit passcode');if(!/^\d{4}$/.test(next||''))return alert('Passcode must be exactly 4 digits.');const newSalt=crypto.getRandomValues(new Uint8Array(16));key=await derive(next,newSalt);localStorage.setItem(SALT,b64(newSalt));localStorage.setItem(CHECK,await encrypt({ok:'my-little-world'}));await persist();$('settingsMsg').textContent='Passcode changed.';}catch(e){alert('Could not verify that passcode.');}}
+function exportBackup(){const blob=new Blob([JSON.stringify({salt:localStorage.getItem(SALT),check:localStorage.getItem(CHECK),data:localStorage.getItem(DB)})],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='my-little-world-encrypted-backup.json';a.click();URL.revokeObjectURL(a.href);}
+function deleteAll(){if(!confirm('Permanently delete all diary data from this browser? Export a backup first if you want to keep a copy.'))return;[DB,SALT,CHECK].forEach(k=>localStorage.removeItem(k));location.reload();}
+init();
+</script>
+</body></html>
